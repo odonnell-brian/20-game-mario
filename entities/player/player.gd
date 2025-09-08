@@ -1,7 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
-enum PlayerStates {IDLE, RUN, JUMP, FALL}
+enum PlayerStates { IDLE, RUN, JUMP, FALL }
 
 @export_category("Dependencies")
 @export var animated_sprite: AnimatedSprite2D
@@ -12,6 +12,7 @@ enum PlayerStates {IDLE, RUN, JUMP, FALL}
 var state_machine: CallableStateMachine = CallableStateMachine.new()
 var current_animation: String
 
+
 func _ready() -> void:
 	state_machine.add_state(PlayerStates.IDLE, idle_state, idle_state_enter)
 	state_machine.add_state(PlayerStates.RUN, run_state, run_state_enter)
@@ -20,13 +21,16 @@ func _ready() -> void:
 
 	state_machine.set_initial_state(PlayerStates.IDLE)
 
+
 func _physics_process(delta: float) -> void:
 	velocity_component.apply_gravity(delta)
 	input_component.tick()
 	state_machine.update(delta)
 
+
 func idle_state_enter() -> void:
 	play_animation("idle")
+
 
 func idle_state(_delta: float) -> void:
 	do_horizontal_movement()
@@ -36,8 +40,10 @@ func idle_state(_delta: float) -> void:
 	elif input_component.jump:
 		state_machine.change_state(PlayerStates.JUMP)
 
+
 func run_state_enter() -> void:
 	play_animation("run")
+
 
 func run_state(_delta: float) -> void:
 	do_horizontal_movement()
@@ -49,9 +55,11 @@ func run_state(_delta: float) -> void:
 	elif input_component.horizontal_direction == 0.0:
 		state_machine.change_state(PlayerStates.IDLE)
 
+
 func jump_state_enter() -> void:
 	play_animation("jump")
 	jump_component.jump()
+
 
 func jump_state(_delta: float) -> void:
 	jump_component.tick(input_component.jump, input_component.jump_just_released)
@@ -60,8 +68,10 @@ func jump_state(_delta: float) -> void:
 	if velocity_component.is_falling:
 		state_machine.change_state(PlayerStates.FALL)
 
+
 func fall_state_enter() -> void:
 	play_animation("fall")
+
 
 func fall_state(_delta: float) -> void:
 	jump_component.tick(input_component.jump, input_component.jump_just_released)
@@ -75,8 +85,10 @@ func fall_state(_delta: float) -> void:
 	elif velocity_component.is_on_floor():
 		state_machine.change_state(PlayerStates.IDLE)
 
+
 func fall_state_exit() -> void:
 	jump_component.tick(input_component.jump, input_component.jump_just_released)
+
 
 func do_horizontal_movement() -> void:
 	velocity_component.accelerate_horizontal_in_direction(input_component.horizontal_direction)
@@ -84,9 +96,11 @@ func do_horizontal_movement() -> void:
 
 	flip_sprite()
 
+
 func flip_sprite() -> void:
 	if input_component.horizontal_direction != 0.0:
 		animated_sprite.flip_h = true if input_component.horizontal_direction < 0 else false
+
 
 func play_animation(anim_name: String) -> void:
 	if current_animation != anim_name:

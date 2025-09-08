@@ -12,26 +12,34 @@ const VELOCITY_LERP_WEIGHT: float = .2
 
 var is_falling: bool = false
 
+
 func accelerate_horizontal_to_velocity(target_velocity: float) -> void:
 	body.velocity.x = lerp(body.velocity.x, target_velocity, VELOCITY_LERP_WEIGHT)
+
 
 func accelerate_horizontal_in_direction(direction: float) -> void:
 	accelerate_horizontal_to_velocity(direction * max_speed)
 
+
 func decelerate_horizontal() -> void:
 	accelerate_horizontal_to_velocity(0)
+
 
 func apply_jump_force(amount: float) -> void:
 	body.velocity.y = amount
 
+
 func stop_vertical_velocity() -> void:
 	body.velocity.y = 0
+
 
 func get_velocity() -> Vector2:
 	return Vector2(body.velocity)
 
+
 func is_on_floor() -> bool:
 	return body.is_on_floor()
+
 
 func apply_gravity(delta: float) -> void:
 	if not affected_by_gravity:
@@ -41,6 +49,7 @@ func apply_gravity(delta: float) -> void:
 		body.velocity.y += (delta * body.get_gravity()).y
 
 	is_falling = body.velocity.y >= 0 and not body.is_on_floor()
+
 
 func move() -> void:
 	body.move_and_slide()
