@@ -371,4 +371,3 @@ max_speed = 150.0
 
 [node name="JumpComponent" parent="." node_paths=PackedStringArray("velocity_component") instance=ExtResource("12_a1qjk")]
 velocity_component = NodePath("../VelocityComponent")
-coyote_time = 2.0

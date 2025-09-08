@@ -10,6 +10,7 @@ enum PlayerStates {IDLE, RUN, JUMP, FALL}
 @export var jump_component: JumpComponent
 
 var state_machine: CallableStateMachine = CallableStateMachine.new()
+var current_animation: String
 
 func _ready() -> void:
 	state_machine.add_state(PlayerStates.IDLE, idle_state, idle_state_enter)
@@ -25,7 +26,7 @@ func _physics_process(delta: float) -> void:
 	state_machine.update(delta)
 
 func idle_state_enter() -> void:
-	animated_sprite.play("idle")
+	play_animation("idle")
 
 func idle_state(_delta: float) -> void:
 	do_horizontal_movement()
@@ -36,7 +37,7 @@ func idle_state(_delta: float) -> void:
 		state_machine.change_state(PlayerStates.JUMP)
 
 func run_state_enter() -> void:
-	animated_sprite.play("run")
+	play_animation("run")
 
 func run_state(_delta: float) -> void:
 	do_horizontal_movement()
@@ -49,22 +50,29 @@ func run_state(_delta: float) -> void:
 		state_machine.change_state(PlayerStates.IDLE)
 
 func jump_state_enter() -> void:
-	animated_sprite.play("jump")
+	play_animation("jump")
 	jump_component.jump()
 
-func jump_state(delta: float) -> void:
+func jump_state(_delta: float) -> void:
 	jump_component.tick(input_component.jump, input_component.jump_just_released)
 	do_horizontal_movement()
+
 	if velocity_component.is_falling:
 		state_machine.change_state(PlayerStates.FALL)
 
 func fall_state_enter() -> void:
-	animated_sprite.play("fall")
+	play_animation("fall")
 
-func fall_state(delta: float) -> void:
+func fall_state(_delta: float) -> void:
 	jump_component.tick(input_component.jump, input_component.jump_just_released)
 	do_horizontal_movement()
-	if velocity_component.is_on_floor():
+
+	var coyote_jump: bool = input_component.jump and jump_component.is_coyote_time()
+	var buffered_jump = velocity_component.is_on_floor() and jump_component.jump_buffered()
+
+	if coyote_jump or buffered_jump:
+		state_machine.change_state(PlayerStates.JUMP)
+	elif velocity_component.is_on_floor():
 		state_machine.change_state(PlayerStates.IDLE)
 
 func fall_state_exit() -> void:
@@ -79,3 +87,8 @@ func do_horizontal_movement() -> void:
 func flip_sprite() -> void:
 	if input_component.horizontal_direction != 0.0:
 		animated_sprite.flip_h = true if input_component.horizontal_direction < 0 else false
+
+func play_animation(anim_name: String) -> void:
+	if current_animation != anim_name:
+		current_animation = anim_name
+		animated_sprite.play(current_animation)
