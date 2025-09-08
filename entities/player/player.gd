@@ -8,7 +8,6 @@ enum PlayerStates {IDLE, RUN, JUMP, FALL}
 @export var velocity_component: VelocityComponent
 @export var input_component: PlayerInputComponent
 @export var jump_component: JumpComponent
-@export var gravity_component: GravityComponent
 
 var state_machine: CallableStateMachine = CallableStateMachine.new()
 
@@ -16,67 +15,67 @@ func _ready() -> void:
 	state_machine.add_state(PlayerStates.IDLE, idle_state, idle_state_enter)
 	state_machine.add_state(PlayerStates.RUN, run_state, run_state_enter)
 	state_machine.add_state(PlayerStates.JUMP, jump_state, jump_state_enter)
-	state_machine.add_state(PlayerStates.FALL, fall_state, fall_state_enter)
+	state_machine.add_state(PlayerStates.FALL, fall_state, fall_state_enter, fall_state_exit)
 
 	state_machine.set_initial_state(PlayerStates.IDLE)
 
-func _physics_process(_delta: float) -> void:
-	state_machine.update()
+func _physics_process(delta: float) -> void:
+	velocity_component.apply_gravity(delta)
+	input_component.tick()
+	state_machine.update(delta)
 
 func idle_state_enter() -> void:
-	print("enter idle")
 	animated_sprite.play("idle")
 
-func idle_state() -> void:
-	velocity_component.decelerate_horizontal()
-	velocity_component.move(self)
+func idle_state(_delta: float) -> void:
+	do_horizontal_movement()
 
 	if input_component.horizontal_direction != 0.0:
 		state_machine.change_state(PlayerStates.RUN)
 	elif input_component.jump:
-		print("Jump")
 		state_machine.change_state(PlayerStates.JUMP)
 
 func run_state_enter() -> void:
-	print("enter run")
 	animated_sprite.play("run")
 
-func run_state() -> void:
+func run_state(_delta: float) -> void:
 	do_horizontal_movement()
-	if input_component.horizontal_direction == 0.0:
-		state_machine.change_state(PlayerStates.IDLE)
-	elif input_component.jump:
+
+	if input_component.jump:
 		state_machine.change_state(PlayerStates.JUMP)
+	elif velocity_component.is_falling:
+		state_machine.change_state(PlayerStates.FALL)
+	elif input_component.horizontal_direction == 0.0:
+		state_machine.change_state(PlayerStates.IDLE)
 
 func jump_state_enter() -> void:
-	print("enter jump")
 	animated_sprite.play("jump")
+	jump_component.jump()
 
-func jump_state() -> void:
-	jump_component.handle_jump(self, input_component.jump, input_component.jump_just_released)
+func jump_state(delta: float) -> void:
+	jump_component.tick(input_component.jump, input_component.jump_just_released)
 	do_horizontal_movement()
-
-	if gravity_component.is_falling:
+	if velocity_component.is_falling:
 		state_machine.change_state(PlayerStates.FALL)
 
 func fall_state_enter() -> void:
-	print("enter fall")
 	animated_sprite.play("fall")
 
-func fall_state() -> void:
+func fall_state(delta: float) -> void:
+	jump_component.tick(input_component.jump, input_component.jump_just_released)
 	do_horizontal_movement()
-	if not gravity_component.is_falling:
-		var next_state = PlayerStates.IDLE if input_component.horizontal_direction == 0.0 else PlayerStates.RUN
-		state_machine.change_state(next_state)
+	if velocity_component.is_on_floor():
+		state_machine.change_state(PlayerStates.IDLE)
+
+func fall_state_exit() -> void:
+	jump_component.tick(input_component.jump, input_component.jump_just_released)
+
+func do_horizontal_movement() -> void:
+	velocity_component.accelerate_horizontal_in_direction(input_component.horizontal_direction)
+	velocity_component.move()
+
+	flip_sprite()
 
 func flip_sprite() -> void:
 	if input_component.horizontal_direction != 0.0:
 		animated_sprite.flip_h = true if input_component.horizontal_direction < 0 else false
-
-func do_horizontal_movement() -> void:
-	if input_component.horizontal_direction == 0.0:
-		velocity_component.decelerate_horizontal()
-	else:
-		velocity_component.accelerate_horizontal_in_direction(input_component.horizontal_direction)
-	velocity_component.move(self)
-	flip_sprite()

@@ -7,6 +7,8 @@ script = ExtResource("1_rj7lb")
 
 [node name="JumpBufferTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+one_shot = true
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+one_shot = true

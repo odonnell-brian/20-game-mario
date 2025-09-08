@@ -11,17 +11,22 @@ func set_initial_state(initial_state: int) -> void:
 	if state_dict.has(initial_state):
 		set_state(initial_state)
 
-func update() -> void:
+func update(delta: float) -> void:
 	if state_dict.has(current_state):
-		state_dict[current_state].normal.call()
+		state_dict[current_state].normal.call(delta)
 
 func change_state(state_id: int) -> void:
 	if state_dict.has(state_id):
 		set_state.call_deferred(state_id)
 
 func set_state(state_id: int) -> void:
-	if state_dict.has(state_id) and state_dict[state_id].exit:
-		state_dict[state_id].exit.call()
+	if state_id == current_state:
+		return
+
+	print("changing to state %d" % state_id)
+
+	if state_dict.has(current_state) and state_dict[current_state].exit:
+		state_dict[current_state].exit.call()
 
 	current_state = state_id
 	if state_dict[current_state].enter:
