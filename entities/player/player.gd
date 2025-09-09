@@ -8,6 +8,7 @@ enum PlayerStates { IDLE, RUN, JUMP, FALL }
 @export var velocity_component: VelocityComponent
 @export var input_component: PlayerInputComponent
 @export var jump_component: JumpComponent
+@export var animation_handler: AnimationHandlerComponent
 
 var state_machine: CallableStateMachine = CallableStateMachine.new()
 var current_animation: String
@@ -29,7 +30,7 @@ func _physics_process(delta: float) -> void:
 
 
 func idle_state_enter() -> void:
-	play_animation("idle")
+	animation_handler.play_animation("idle")
 
 
 func idle_state(_delta: float) -> void:
@@ -42,7 +43,7 @@ func idle_state(_delta: float) -> void:
 
 
 func run_state_enter() -> void:
-	play_animation("run")
+	animation_handler.play_animation("run")
 
 
 func run_state(_delta: float) -> void:
@@ -57,7 +58,7 @@ func run_state(_delta: float) -> void:
 
 
 func jump_state_enter() -> void:
-	play_animation("jump")
+	animation_handler.play_animation("jump")
 	jump_component.jump()
 
 
@@ -70,7 +71,7 @@ func jump_state(_delta: float) -> void:
 
 
 func fall_state_enter() -> void:
-	play_animation("fall")
+	animation_handler.play_animation("fall")
 
 
 func fall_state(_delta: float) -> void:
@@ -100,9 +101,3 @@ func do_horizontal_movement() -> void:
 func flip_sprite() -> void:
 	if input_component.horizontal_direction != 0.0:
 		animated_sprite.flip_h = true if input_component.horizontal_direction < 0 else false
-
-
-func play_animation(anim_name: String) -> void:
-	if current_animation != anim_name:
-		current_animation = anim_name
-		animated_sprite.play(current_animation)

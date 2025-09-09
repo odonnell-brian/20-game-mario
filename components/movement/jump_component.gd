@@ -17,10 +17,6 @@ var last_frame_on_floor: bool = false
 @onready var coyote_timer: Timer = %CoyoteTimer
 
 
-func _ready() -> void:
-	coyote_timer.timeout.connect(func(): print("coyote timeout"))
-
-
 func jump() -> void:
 	velocity_component.apply_jump_force(jump_velocity)
 	last_frame_on_floor = true
@@ -49,7 +45,6 @@ func has_just_landed() -> bool:
 
 func handle_coyote_time() -> void:
 	if not velocity_component.is_on_floor() and last_frame_on_floor and not is_jumping:
-		print("start coyote time")
 		coyote_timer.start(coyote_time)
 
 	if is_coyote_time() and not is_jumping:

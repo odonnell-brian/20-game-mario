@@ -1,20 +1,19 @@
 class_name VelocityComponent
 extends Node2D
 
-const VELOCITY_LERP_WEIGHT: float = .2
-
 @export_category("Dependencies")
 @export var body: CharacterBody2D
 
 @export_category("Settings")
 @export var max_speed: float = 100
 @export var affected_by_gravity: bool = true
+@export var velocity_lerp_weight: float = 0.2
 
 var is_falling: bool = false
 
 
 func accelerate_horizontal_to_velocity(target_velocity: float) -> void:
-	body.velocity.x = lerp(body.velocity.x, target_velocity, VELOCITY_LERP_WEIGHT)
+	body.velocity.x = lerp(body.velocity.x, target_velocity, velocity_lerp_weight)
 
 
 func accelerate_horizontal_in_direction(direction: float) -> void:

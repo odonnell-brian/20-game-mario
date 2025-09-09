@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://tnkphjonmwrj"]
+
+[ext_resource type="Script" uid="uid://d4kk8ba6vo2ef" path="res://components/movement/ai/ray_cast_move_component.gd" id="1_24d2v"]
+
+[node name="RayCastMoveComponent" type="Node2D"]
+script = ExtResource("1_24d2v")
+
+[node name="WaitTimer" type="Timer" parent="."]
+one_shot = true

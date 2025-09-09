@@ -28,8 +28,6 @@ func set_state(state_id: int) -> void:
 	if state_id == current_state:
 		return
 
-	print("changing to state %d" % state_id)
-
 	if state_dict.has(current_state) and state_dict[current_state].exit:
 		state_dict[current_state].exit.call()
 
