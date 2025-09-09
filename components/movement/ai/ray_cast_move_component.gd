@@ -21,9 +21,9 @@ var direction: int = 0
 
 func _ready() -> void:
 	wait_timer.timeout.connect(on_wait_timeout)
-	next_direction = -1
+	next_direction = 1 if randi() % 2 == 0 else -1
 	orient_rays(next_direction)
-	wait_timer.start(0.5)
+	wait_timer.start(randf_range(0.25, 0.75))
 
 
 func get_horizontal_movement_direction() -> float:

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwoatlip4vh05"]
+
+[ext_resource type="Script" uid="uid://cab70o57yqgve" path="res://components/mechanics/stomp_component.gd" id="1_wix11"]
+
+[node name="StompComponent" type="Area2D"]
+script = ExtResource("1_wix11")

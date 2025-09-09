@@ -9,12 +9,15 @@ enum PlayerStates { IDLE, RUN, JUMP, FALL }
 @export var input_component: PlayerInputComponent
 @export var jump_component: JumpComponent
 @export var animation_handler: AnimationHandlerComponent
+@export var stomp_component: StompComponent
 
 var state_machine: CallableStateMachine = CallableStateMachine.new()
 var current_animation: String
 
 
 func _ready() -> void:
+	stomp_component.stomped.connect(on_stomp)
+
 	state_machine.add_state(PlayerStates.IDLE, idle_state, idle_state_enter)
 	state_machine.add_state(PlayerStates.RUN, run_state, run_state_enter)
 	state_machine.add_state(PlayerStates.JUMP, jump_state, jump_state_enter)
@@ -97,6 +100,8 @@ func do_horizontal_movement() -> void:
 
 	flip_sprite()
 
+func on_stomp() -> void:
+	state_machine.change_state(PlayerStates.JUMP)
 
 func flip_sprite() -> void:
 	if input_component.horizontal_direction != 0.0:
