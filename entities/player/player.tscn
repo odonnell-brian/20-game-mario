@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://cixtb2p6axd13"]
+[gd_scene load_steps=61 format=3 uid="uid://cixtb2p6axd13"]
 
 [ext_resource type="Script" uid="uid://ssxtn8m1gx3j" path="res://entities/player/player.gd" id="1_26q78"]
 [ext_resource type="Texture2D" uid="uid://cu12so1dyqowa" path="res://entities/player/assets/Double Jump (32x32).png" id="1_bls4j"]
@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://c0v0qk7t6d2wq" path="res://components/movement/jump_component.tscn" id="12_a1qjk"]
 [ext_resource type="PackedScene" uid="uid://dwtdv2h614fop" path="res://components/visuals/animation_handler_component.tscn" id="12_j3ovn"]
 [ext_resource type="PackedScene" uid="uid://dwoatlip4vh05" path="res://components/mechanics/stomp_component.tscn" id="13_j3ovn"]
+[ext_resource type="Script" uid="uid://c381mwem1tgbu" path="res://entities/player/banana_power.gd" id="14_afbqv"]
+[ext_resource type="PackedScene" uid="uid://yaenuarjyr6q" path="res://components/health/damage_component.tscn" id="15_gx6sm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_50fht"]
 atlas = ExtResource("1_bls4j")
@@ -352,8 +354,11 @@ height = 20.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_afbqv"]
 size = Vector2(15, 2)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gx6sm"]
+size = Vector2(15, 2)
+
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animated_sprite", "velocity_component", "input_component", "jump_component", "animation_handler", "stomp_component")]
-collision_layer = 0
+collision_layer = 128
 script = ExtResource("1_26q78")
 animated_sprite = NodePath("AnimatedSprite2D")
 velocity_component = NodePath("VelocityComponent")
@@ -388,3 +393,21 @@ animated_sprite = NodePath("../AnimatedSprite2D")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StompComponent"]
 position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_afbqv")
+
+[node name="BananaPower" type="Area2D" parent="." node_paths=PackedStringArray("scale_node")]
+collision_mask = 0
+script = ExtResource("14_afbqv")
+scale_node = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BananaPower"]
+position = Vector2(1, -10)
+shape = SubResource("CapsuleShape2D_qiwj3")
+
+[node name="HeadDamageComponent" parent="." instance=ExtResource("15_gx6sm")]
+collision_layer = 0
+collision_mask = 2
+cooldown_time = 0.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeadDamageComponent"]
+position = Vector2(0, -26)
+shape = SubResource("RectangleShape2D_gx6sm")

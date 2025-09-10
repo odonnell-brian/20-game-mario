@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=4 uid="uid://dofclc5v4tror"]
+[gd_scene load_steps=10 format=4 uid="uid://dofclc5v4tror"]
 
 [ext_resource type="TileSet" uid="uid://bjcgeevxjsana" path="res://levels/assets/background_tile_set.tres" id="1_46lwt"]
 [ext_resource type="TileSet" uid="uid://cbojdq6jkswq8" path="res://levels/assets/terrain_tileset.tres" id="2_x25rp"]
 [ext_resource type="PackedScene" uid="uid://cixtb2p6axd13" path="res://entities/player/player.tscn" id="3_gmgay"]
 [ext_resource type="Script" uid="uid://wpd52ert7yx0" path="res://levels/fall_respawn.gd" id="4_w7r7j"]
 [ext_resource type="PackedScene" uid="uid://bnpddms5rlylb" path="res://entities/mushroom/mushroom.tscn" id="5_o6mel"]
+[ext_resource type="PackedScene" uid="uid://luha83wqw07t" path="res://entities/powerups/banana/banana_powerup.tscn" id="6_e7anx"]
+[ext_resource type="PackedScene" uid="uid://dho3s4j87avoy" path="res://entities/blocks/brick/brick.tscn" id="7_wndkh"]
+[ext_resource type="PackedScene" uid="uid://20geoggeuck0" path="res://entities/blocks/mystery_box/mystery_box.tscn" id="8_ly3hx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gmgay"]
 size = Vector2(54, 7)
@@ -29,14 +32,16 @@ tile_set = ExtResource("2_x25rp")
 collision_visibility_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("3_gmgay")]
+z_index = 5
 position = Vector2(224, 336)
 
 [node name="Pit" type="Area2D" parent="."]
-position = Vector2(326, 388)
+position = Vector2(326, 392)
+collision_layer = 0
+collision_mask = 128
 script = ExtResource("4_w7r7j")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pit"]
-position = Vector2(3, 6.5)
 shape = SubResource("RectangleShape2D_gmgay")
 
 [node name="Marker2D" type="Marker2D" parent="Pit"]
@@ -47,3 +52,12 @@ position = Vector2(141, 336)
 
 [node name="Mushroom2" parent="." instance=ExtResource("5_o6mel")]
 position = Vector2(448, 336)
+
+[node name="BananaPowerup" parent="." instance=ExtResource("6_e7anx")]
+position = Vector2(312, 264)
+
+[node name="Brick" parent="." instance=ExtResource("7_wndkh")]
+position = Vector2(248, 280)
+
+[node name="MysteryBox" parent="." instance=ExtResource("8_ly3hx")]
+position = Vector2(264, 280)

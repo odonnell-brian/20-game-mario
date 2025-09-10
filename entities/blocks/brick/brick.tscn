@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3 uid="uid://dho3s4j87avoy"]
+
+[ext_resource type="Texture2D" uid="uid://demobwlh41jnc" path="res://entities/blocks/brick/Sprite-0002.png" id="1_s3edc"]
+[ext_resource type="Script" uid="uid://gwa23ru35q1t" path="res://entities/blocks/brick/brick.gd" id="1_xlh3s"]
+[ext_resource type="Texture2D" uid="uid://c403cv248v00b" path="res://entities/blocks/brick/Sprite-0003.png" id="2_xlh3s"]
+[ext_resource type="PackedScene" uid="uid://cd1f667ur34fn" path="res://components/health/health_component.tscn" id="4_pqeum"]
+[ext_resource type="PackedScene" uid="uid://bl6fj514i74cf" path="res://components/effects/bounce_effect_component.tscn" id="5_0nhnd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0nhnd"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pqeum"]
+size = Vector2(12, 4)
+
+[node name="Brick" type="StaticBody2D" node_paths=PackedStringArray("health_component", "sprite_normal", "sprite_cracked")]
+script = ExtResource("1_xlh3s")
+health_component = NodePath("HealthComponent")
+sprite_normal = NodePath("Sprite")
+sprite_cracked = NodePath("SpriteCracked")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_s3edc")
+
+[node name="SpriteCracked" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_xlh3s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0nhnd")
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("hit_fx") instance=ExtResource("4_pqeum")]
+collision_layer = 2
+collision_mask = 0
+max_health = 2
+hit_fx = NodePath("BounceEffectComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HealthComponent"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_pqeum")
+
+[node name="BounceEffectComponent" parent="HealthComponent" node_paths=PackedStringArray("node") instance=ExtResource("5_0nhnd")]
+node = NodePath("../..")

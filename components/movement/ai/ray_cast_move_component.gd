@@ -3,7 +3,7 @@ extends Node2D
 ## Picks a movement direction based on the provided raycasts. Once a raycast condition isn't met, will reverse direction.
 
 enum CollisionBehavior { MOVE, STOP }
-enum Direction { LEFT = -1, RIGHT = 1}
+enum Direction { LEFT = -1, RIGHT = 1 }
 
 @export_category("Dependencies")
 

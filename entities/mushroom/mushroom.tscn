@@ -332,7 +332,7 @@ animated_sprite = NodePath("../AnimatedSprite2D")
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StompableComponent"]
-position = Vector2(0, -19)
+position = Vector2(0, -22)
 shape = SubResource("RectangleShape2D_r5dxy")
 
 [node name="HealthComponent" parent="." instance=ExtResource("9_7s57y")]

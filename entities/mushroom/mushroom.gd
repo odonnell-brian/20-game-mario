@@ -18,9 +18,11 @@ func _ready() -> void:
 
 	state_machine.set_initial_state(MushroomStates.IDLE)
 
+
 func _physics_process(delta: float) -> void:
 	state_machine.update(delta)
 	velocity_component.apply_gravity(delta)
+
 
 func idle_state_enter() -> void:
 	animation_handler.play_animation("idle")

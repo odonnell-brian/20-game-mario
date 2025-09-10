@@ -9,6 +9,9 @@ signal stomped()
 func _ready() -> void:
 	area_entered.connect(on_area_entered)
 
-func on_area_entered(stompable: StompableComponent) -> void:
-	stompable.do_stomp(damage)
+func on_area_entered(area: Area2D) -> void:
+	if not area is StompableComponent:
+		return
+
+	(area as StompableComponent).do_stomp(damage)
 	stomped.emit()
