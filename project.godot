@@ -15,6 +15,10 @@ run/main_scene="uid://dofclc5v4tror"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Globals="*res://scripts/globals/globals.gd"
+
 [display]
 
 window/size/viewport_width=640
@@ -32,6 +36,10 @@ enabled=PackedStringArray("res://addons/gdscript_formatter/plugin.cfg")
 folder_colors={
 "res://addons/": "green"
 }
+
+[global_group]
+
+anim_pause=""
 
 [input]
 

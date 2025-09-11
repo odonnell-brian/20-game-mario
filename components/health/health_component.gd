@@ -1,9 +1,11 @@
 class_name HealthComponent
 extends Area2D
 
+@warning_ignore("unused_signal")
+signal destroy_fx_complete
+
 signal health_changed(current_health: int)
 signal health_depleted
-signal destroy_fx_complete
 
 @export_category("Settings")
 @export var max_health: int = 1

@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=4 uid="uid://dofclc5v4tror"]
+[gd_scene load_steps=11 format=4 uid="uid://dofclc5v4tror"]
 
 [ext_resource type="TileSet" uid="uid://bjcgeevxjsana" path="res://levels/assets/background_tile_set.tres" id="1_46lwt"]
+[ext_resource type="Script" uid="uid://bttvw7k8w6jmt" path="res://levels/game_controller.gd" id="1_ly3hx"]
 [ext_resource type="TileSet" uid="uid://cbojdq6jkswq8" path="res://levels/assets/terrain_tileset.tres" id="2_x25rp"]
 [ext_resource type="PackedScene" uid="uid://cixtb2p6axd13" path="res://entities/player/player.tscn" id="3_gmgay"]
 [ext_resource type="Script" uid="uid://wpd52ert7yx0" path="res://levels/fall_respawn.gd" id="4_w7r7j"]
@@ -13,6 +14,7 @@
 size = Vector2(54, 7)
 
 [node name="TestLevel" type="Node2D"]
+script = ExtResource("1_ly3hx")
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
 repeat_size = Vector2(640, 360)

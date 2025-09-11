@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://kgr21cxo6t1m"]
+
+[ext_resource type="Script" uid="uid://drm5nsfd8wpfu" path="res://components/mechanics/item_spawn_component.gd" id="1_xkmfo"]
+
+[node name="ItemSpawnComponent" type="Area2D"]
+script = ExtResource("1_xkmfo")

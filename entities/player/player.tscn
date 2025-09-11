@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://dwtdv2h614fop" path="res://components/visuals/animation_handler_component.tscn" id="12_j3ovn"]
 [ext_resource type="PackedScene" uid="uid://dwoatlip4vh05" path="res://components/mechanics/stomp_component.tscn" id="13_j3ovn"]
 [ext_resource type="Script" uid="uid://c381mwem1tgbu" path="res://entities/player/banana_power.gd" id="14_afbqv"]
-[ext_resource type="PackedScene" uid="uid://yaenuarjyr6q" path="res://components/health/damage_component.tscn" id="15_gx6sm"]
+[ext_resource type="PackedScene" uid="uid://bhnr03ulru3ob" path="res://components/mechanics/brick_breaker_component.tscn" id="16_yqrof"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_50fht"]
 atlas = ExtResource("1_bls4j")
@@ -355,9 +355,9 @@ height = 20.0
 size = Vector2(15, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gx6sm"]
-size = Vector2(15, 2)
+size = Vector2(10, 2)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animated_sprite", "velocity_component", "input_component", "jump_component", "animation_handler", "stomp_component")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animated_sprite", "velocity_component", "input_component", "jump_component", "animation_handler", "stomp_component") groups=["anim_pause"]]
 collision_layer = 128
 script = ExtResource("1_26q78")
 animated_sprite = NodePath("AnimatedSprite2D")
@@ -403,11 +403,11 @@ scale_node = NodePath("..")
 position = Vector2(1, -10)
 shape = SubResource("CapsuleShape2D_qiwj3")
 
-[node name="HeadDamageComponent" parent="." instance=ExtResource("15_gx6sm")]
+[node name="BrickBreakerComponent" parent="." instance=ExtResource("16_yqrof")]
 collision_layer = 0
 collision_mask = 2
 cooldown_time = 0.5
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HeadDamageComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BrickBreakerComponent"]
 position = Vector2(0, -26)
 shape = SubResource("RectangleShape2D_gx6sm")

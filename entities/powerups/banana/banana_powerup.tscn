@@ -133,7 +133,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_koa6q"]
 radius = 8.06226
 
-[node name="BananaPowerup" type="Area2D"]
+[node name="BananaPowerup" type="Area2D" groups=["anim_pause"]]
 collision_layer = 0
 script = ExtResource("1_ypkd6")
 

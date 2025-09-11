@@ -1,6 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://20geoggeuck0"]
+[gd_scene load_steps=10 format=3 uid="uid://20geoggeuck0"]
 
 [ext_resource type="Texture2D" uid="uid://kxl0myxglpc1" path="res://levels/assets/Terrain (16x16).png" id="1_34630"]
+[ext_resource type="Script" uid="uid://dgie4t0g1j1hy" path="res://entities/blocks/mystery_box/mystery_box.gd" id="1_iv6ln"]
+[ext_resource type="PackedScene" uid="uid://kgr21cxo6t1m" path="res://components/mechanics/item_spawn_component.tscn" id="2_f1p77"]
+[ext_resource type="PackedScene" uid="uid://luha83wqw07t" path="res://entities/powerups/banana/banana_powerup.tscn" id="3_h7r0i"]
+[ext_resource type="PackedScene" uid="uid://bl6fj514i74cf" path="res://components/effects/bounce_effect_component.tscn" id="5_ll057"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f1p77"]
 atlas = ExtResource("1_34630")
@@ -20,10 +24,31 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iv6ln"]
 size = Vector2(16, 16)
 
-[node name="MysteryBox" type="StaticBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f1p77"]
+size = Vector2(10, 2)
+
+[node name="MysteryBox" type="StaticBody2D" node_paths=PackedStringArray("item_spawn_component", "spawn_fx") groups=["anim_pause"]]
+script = ExtResource("1_iv6ln")
+item_spawn_component = NodePath("ItemSpawnComponent")
+spawn_fx = NodePath("BounceEffectComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_h7r0i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_iv6ln")
+
+[node name="ItemSpawnComponent" parent="." instance=ExtResource("2_f1p77")]
+collision_layer = 2
+collision_mask = 0
+item_to_spawn = ExtResource("3_h7r0i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemSpawnComponent"]
+position = Vector2(0, 9)
+shape = SubResource("RectangleShape2D_f1p77")
+
+[node name="BounceEffectComponent" parent="." node_paths=PackedStringArray("node") instance=ExtResource("5_ll057")]
+node = NodePath("..")
+offset = Vector2(0, -4)
+time_to_bounce_up = 0.15
+time_to_bounce_down = 0.1
