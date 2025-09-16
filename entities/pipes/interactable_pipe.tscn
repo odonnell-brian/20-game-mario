@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6mpihcx6qlh"]
+
+[ext_resource type="Script" uid="uid://cj8fenbs3e41m" path="res://entities/pipes/pipe.gd" id="1_kma25"]
+[ext_resource type="PackedScene" uid="uid://be508s0my8d5b" path="res://entities/pipes/pipe_small.tscn" id="1_qtvcs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qtvcs"]
+size = Vector2(20, 2)
+
+[node name="InteractablePipe" type="Node2D"]
+script = ExtResource("1_kma25")
+input_action = "move_down"
+
+[node name="PipeSmall" parent="." instance=ExtResource("1_qtvcs")]
+
+[node name="InteractionArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_qtvcs")

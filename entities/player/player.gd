@@ -1,7 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
-enum PlayerStates { IDLE, RUN, JUMP, FALL }
+enum PlayerStates { IDLE, RUN, JUMP, FALL, DISABLED }
 
 @export_category("Dependencies")
 @export var animated_sprite: AnimatedSprite2D
@@ -22,6 +22,7 @@ func _ready() -> void:
 	state_machine.add_state(PlayerStates.RUN, run_state, run_state_enter)
 	state_machine.add_state(PlayerStates.JUMP, jump_state, jump_state_enter)
 	state_machine.add_state(PlayerStates.FALL, fall_state, fall_state_enter, fall_state_exit)
+	state_machine.add_state(PlayerStates.DISABLED, disabled_state, disabled_state_enter)
 
 	state_machine.set_initial_state(PlayerStates.IDLE)
 
@@ -43,6 +44,14 @@ func idle_state(_delta: float) -> void:
 		state_machine.change_state(PlayerStates.RUN)
 	elif input_component.jump:
 		state_machine.change_state(PlayerStates.JUMP)
+
+
+func disabled_state_enter() -> void:
+	animation_handler.play_animation("idle")
+
+
+func disabled_state(_delta: float) -> void:
+	pass
 
 
 func run_state_enter() -> void:
@@ -100,9 +109,18 @@ func do_horizontal_movement() -> void:
 
 	flip_sprite()
 
+
 func on_stomp() -> void:
 	state_machine.change_state(PlayerStates.JUMP)
+
 
 func flip_sprite() -> void:
 	if input_component.horizontal_direction != 0.0:
 		animated_sprite.flip_h = true if input_component.horizontal_direction < 0 else false
+
+
+func set_input_enabled(enabled: bool) -> void:
+	if enabled and state_machine.current_state == PlayerStates.DISABLED:
+		state_machine.change_state(PlayerStates.IDLE)
+	else:
+		state_machine.change_state(PlayerStates.DISABLED)

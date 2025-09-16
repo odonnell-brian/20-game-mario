@@ -38,10 +38,10 @@ func idle_state(delta: float) -> void:
 
 func move_state_enter() -> void:
 	animation_handler.play_animation("run")
-	animated_sprite.flip_h = movement_component.direction != -1
 
 
 func move_state(delta: float) -> void:
+	animated_sprite.flip_h = movement_component.direction != -1
 	movement_component.tick(delta)
 	velocity_component.accelerate_horizontal_in_direction(movement_component.direction)
 	velocity_component.move()

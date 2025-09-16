@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci31t2m5bhge4"]
+
+[ext_resource type="Script" uid="uid://devt4475wuiv8" path="res://components/visuals/animation_speed_jitter_component.gd" id="1_6nvaf"]
+
+[node name="AnimationSpeedJitterComponent" type="Node"]
+script = ExtResource("1_6nvaf")

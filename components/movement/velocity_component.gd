@@ -1,6 +1,8 @@
 class_name VelocityComponent
 extends Node2D
 
+const Y_VELOCITY_LIMITS := Vector2(-500, 350)
+
 @export_category("Dependencies")
 @export var body: CharacterBody2D
 
@@ -45,7 +47,8 @@ func apply_gravity(delta: float) -> void:
 		return
 
 	if not body.is_on_floor():
-		body.velocity.y += (delta * body.get_gravity()).y
+		var y_delta: float = (delta * body.get_gravity()).y
+		body.velocity.y = clamp(body.velocity.y + y_delta, Y_VELOCITY_LIMITS.x, Y_VELOCITY_LIMITS.y)
 
 	is_falling = body.velocity.y >= 0 and not body.is_on_floor()
 

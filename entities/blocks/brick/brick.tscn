@@ -13,6 +13,7 @@ size = Vector2(16, 16)
 size = Vector2(10, 2)
 
 [node name="Brick" type="StaticBody2D" node_paths=PackedStringArray("health_component", "sprite_normal", "sprite_cracked")]
+collision_layer = 17
 script = ExtResource("1_xlh3s")
 health_component = NodePath("HealthComponent")
 sprite_normal = NodePath("Sprite")

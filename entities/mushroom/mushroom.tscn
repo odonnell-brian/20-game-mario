@@ -281,7 +281,7 @@ height = 20.0
 size = Vector2(20, 4)
 
 [node name="Mushroom" type="CharacterBody2D" node_paths=PackedStringArray("animated_sprite", "velocity_component", "movement_component", "animation_handler") groups=["anim_pause"]]
-collision_layer = 0
+collision_layer = 16
 script = ExtResource("1_3scf0")
 animated_sprite = NodePath("AnimatedSprite2D")
 velocity_component = NodePath("VelocityComponent")

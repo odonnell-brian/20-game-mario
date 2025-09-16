@@ -1,0 +1,148 @@
+[gd_scene load_steps=22 format=3 uid="uid://bhf0ibshhlkyo"]
+
+[ext_resource type="Texture2D" uid="uid://cahipifbvd1bs" path="res://entities/apple/assets/Apple.png" id="1_s878l"]
+[ext_resource type="PackedScene" uid="uid://ci31t2m5bhge4" path="res://components/visuals/animation_speed_jitter_component.tscn" id="2_l7u43"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l7u43"]
+atlas = ExtResource("1_s878l")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0eoi5"]
+atlas = ExtResource("1_s878l")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6k2l"]
+atlas = ExtResource("1_s878l")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fo8cf"]
+atlas = ExtResource("1_s878l")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lue35"]
+atlas = ExtResource("1_s878l")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15mrr"]
+atlas = ExtResource("1_s878l")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7aii"]
+atlas = ExtResource("1_s878l")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tp5sc"]
+atlas = ExtResource("1_s878l")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oe7e3"]
+atlas = ExtResource("1_s878l")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qosi5"]
+atlas = ExtResource("1_s878l")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4w0ki"]
+atlas = ExtResource("1_s878l")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s5qxk"]
+atlas = ExtResource("1_s878l")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4fmd"]
+atlas = ExtResource("1_s878l")
+region = Rect2(384, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3hspv"]
+atlas = ExtResource("1_s878l")
+region = Rect2(416, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yflex"]
+atlas = ExtResource("1_s878l")
+region = Rect2(448, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_roass"]
+atlas = ExtResource("1_s878l")
+region = Rect2(480, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvaog"]
+atlas = ExtResource("1_s878l")
+region = Rect2(512, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ujoca"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l7u43")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0eoi5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6k2l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fo8cf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lue35")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_15mrr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f7aii")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tp5sc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oe7e3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qosi5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4w0ki")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s5qxk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4fmd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3hspv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yflex")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_roass")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvaog")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s878l"]
+radius = 5.0
+
+[node name="Apple" type="StaticBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ujoca")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_s878l")
+
+[node name="AnimationSpeedJitterComponent" parent="." node_paths=PackedStringArray("animated_sprite") instance=ExtResource("2_l7u43")]
+animated_sprite = NodePath("../AnimatedSprite2D")
+speed_scale_range = Vector2(0.85, 1.15)

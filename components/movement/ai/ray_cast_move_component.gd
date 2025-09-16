@@ -37,8 +37,13 @@ func tick(_delta: float) -> void:
 
 	if not can_move and direction != 0:
 		next_direction = direction * -1
-		direction = 0
-		wait_timer.start(wait_time)
+
+		if randi() % 3 == 1:
+			direction = 0
+			wait_timer.start(wait_time)
+		else:
+			direction = next_direction
+
 		orient_rays(next_direction)
 
 

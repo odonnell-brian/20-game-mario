@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://be508s0my8d5b"]
+
+[ext_resource type="Texture2D" uid="uid://da0wexh6xhdn" path="res://entities/pipes/assets/pipe.png" id="1_kgx6y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w65wi"]
+atlas = ExtResource("1_kgx6y")
+region = Rect2(0, 0, 34, 34)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hbxgp"]
+size = Vector2(32, 32)
+
+[node name="PipeSmall" type="StaticBody2D"]
+z_index = 5
+collision_layer = 17
+collision_mask = 0
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+texture = SubResource("AtlasTexture_w65wi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_hbxgp")
