@@ -34,6 +34,10 @@ func stop_vertical_velocity() -> void:
 	body.velocity.y = 0
 
 
+func stop_velocity() -> void:
+	body.velocity = Vector2.ZERO
+
+
 func get_velocity() -> Vector2:
 	return Vector2(body.velocity)
 

@@ -38,16 +38,23 @@ func idle_state_enter() -> void:
 
 
 func idle_state(_delta: float) -> void:
+	if state_machine.current_state == PlayerStates.DISABLED:
+		return
+
 	do_horizontal_movement()
 
 	if input_component.horizontal_direction != 0.0:
 		state_machine.change_state(PlayerStates.RUN)
+	elif velocity_component.is_falling:
+		state_machine.change_state(PlayerStates.FALL)
 	elif input_component.jump:
 		state_machine.change_state(PlayerStates.JUMP)
 
 
 func disabled_state_enter() -> void:
 	animation_handler.play_animation("idle")
+	velocity_component.stop_velocity()
+	input_component.reset()
 
 
 func disabled_state(_delta: float) -> void:
@@ -122,5 +129,5 @@ func flip_sprite() -> void:
 func set_input_enabled(enabled: bool) -> void:
 	if enabled and state_machine.current_state == PlayerStates.DISABLED:
 		state_machine.change_state(PlayerStates.IDLE)
-	else:
+	elif not enabled:
 		state_machine.change_state(PlayerStates.DISABLED)

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dflacpwcsk5sb"]
+
+[ext_resource type="Script" uid="uid://cj8fenbs3e41m" path="res://entities/pipes/pipe.gd" id="1_j1p0x"]
+[ext_resource type="PackedScene" uid="uid://cvoh61pcdwha" path="res://entities/pipes/pipe_small_horizontal.tscn" id="2_j1p0x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qtvcs"]
+size = Vector2(4, 22)
+
+[node name="InteractablePipeHorizontal" type="Node2D"]
+z_index = 5
+script = ExtResource("1_j1p0x")
+input_action = "move_down"
+
+[node name="InteractionArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(-18, -8)
+shape = SubResource("RectangleShape2D_qtvcs")
+
+[node name="PipeSmallHorizontal" parent="." instance=ExtResource("2_j1p0x")]

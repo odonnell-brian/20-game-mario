@@ -8,6 +8,9 @@ extends Node2D
 
 @export_category("Settings")
 @export var input_action: String
+@export var play_exit_animation: bool
+@export var move_camera_limits: bool
+@export var new_camera_limits: Vector4i
 
 var enabled: bool = true
 
@@ -32,11 +35,24 @@ func try_interact(player: Player) -> void:
 	player.set_input_enabled(false)
 
 	var tween: Tween = create_tween()
-	tween.tween_property(player, "global_position:x", enter_animation_end.global_position.x, 0.1)
-	tween.parallel().tween_property(player, "global_position:y", enter_animation_end.global_position.y, 1.0)
-	tween.tween_callback(func(): player.global_position = exit_marker.global_position)
-	tween.tween_property(player, "global_position:y", exit_animation_end.global_position.y, 1.0)
-	tween.tween_callback(func(): player.set_input_enabled(true))
+	var exclude: Array[Node] = [player]
+	tween.tween_callback(Globals.pause_scene_for_animation.emit.bind(exclude))
+	tween.tween_property(player, "global_position", enter_animation_end.global_position, 1.0)
+	tween.tween_callback(
+		func():
+			player.global_position = exit_marker.global_position
+
+			if move_camera_limits:
+				Globals.update_camera_limits.emit(new_camera_limits)
+	)
+	if play_exit_animation:
+		tween.tween_property(player, "global_position", exit_animation_end.global_position, 1.0)
+
+	tween.tween_callback(
+		func():
+			player.set_input_enabled(true)
+			Globals.unpause_scene_for_animation.emit()
+	)
 
 
 func on_body_exited(body: Node2D) -> void:

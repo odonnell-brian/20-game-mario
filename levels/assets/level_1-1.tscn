@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=4 uid="uid://shwl0t3ylry3"]
+[gd_scene load_steps=15 format=4 uid="uid://shwl0t3ylry3"]
 
+[ext_resource type="Script" uid="uid://bttvw7k8w6jmt" path="res://levels/game_controller.gd" id="1_o1imy"]
 [ext_resource type="TileSet" uid="uid://cbojdq6jkswq8" path="res://levels/assets/terrain_tileset.tres" id="1_qv463"]
 [ext_resource type="PackedScene" uid="uid://bhf0ibshhlkyo" path="res://entities/apple/apple.tscn" id="2_cd8ly"]
 [ext_resource type="TileSet" uid="uid://bjcgeevxjsana" path="res://levels/assets/background_tile_set.tres" id="2_ieivt"]
@@ -19,7 +20,9 @@ region = Rect2(0, 34, 34, 34)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5lvmq"]
 size = Vector2(26, 288)
 
-[node name="Level1-1" type="Node2D"]
+[node name="Level1-1" type="Node2D" node_paths=PackedStringArray("camera")]
+script = ExtResource("1_o1imy")
+camera = NodePath("Player/Camera2D")
 
 [node name="play_layer" type="TileMapLayer" parent="."]
 z_index = -1

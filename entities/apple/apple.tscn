@@ -133,14 +133,16 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_s878l"]
 radius = 5.0
 
-[node name="Apple" type="StaticBody2D"]
+[node name="Apple" type="Node2D" groups=["anim_pause"]]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ujoca")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_s878l")
 
 [node name="AnimationSpeedJitterComponent" parent="." node_paths=PackedStringArray("animated_sprite") instance=ExtResource("2_l7u43")]
