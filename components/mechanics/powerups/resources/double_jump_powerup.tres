@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="NumberJumpsPowerup" load_steps=2 format=3 uid="uid://oj5kdwgem167"]
+
+[ext_resource type="Script" uid="uid://hg7fvkk2yfc" path="res://components/mechanics/powerups/number_jumps_powerup.gd" id="1_jreyx"]
+
+[resource]
+script = ExtResource("1_jreyx")
+max_jumps = 2
+metadata/_custom_type_script = "uid://hg7fvkk2yfc"

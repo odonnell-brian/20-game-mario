@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0bq0mnm3b784"]
+
+[ext_resource type="Script" uid="uid://c65276jc01dak" path="res://components/mechanics/powerup_manager_component.gd" id="1_8agy4"]
+
+[node name="PowerupManagerComponent" type="Area2D"]
+script = ExtResource("1_8agy4")

@@ -1,6 +1,8 @@
 class_name JumpComponent
 extends Node2D
 
+const DEFAULT_MAX_JUMPS: int = 1
+
 @export_category("Dependencies")
 @export var velocity_component: VelocityComponent
 
@@ -12,23 +14,29 @@ extends Node2D
 var is_going_up: bool = false
 var is_jumping: bool = false
 var last_frame_on_floor: bool = false
+var num_jumps: int = 0
+var max_jumps: int = DEFAULT_MAX_JUMPS
 
 @onready var jump_buffer_timer: Timer = %JumpBufferTimer
 @onready var coyote_timer: Timer = %CoyoteTimer
 
 
-func jump() -> void:
+func jump() -> bool:
 	velocity_component.apply_jump_force(jump_velocity)
 	last_frame_on_floor = true
 	is_jumping = true
 	is_going_up = true
 	coyote_timer.stop()
 	jump_buffer_timer.stop()
+	num_jumps += 1
+
+	return true
 
 
 func tick(jump_pressed: bool, jump_released: bool) -> void:
 	if has_just_landed():
 		is_jumping = false
+		num_jumps = 0
 
 	is_going_up = velocity_component.get_velocity().y < 0 and not velocity_component.is_on_floor()
 
@@ -63,6 +71,17 @@ func jump_buffered() -> bool:
 func is_coyote_time() -> bool:
 	return not coyote_timer.is_stopped()
 
+
+func can_jump() -> bool:
+	return num_jumps < max_jumps
+
+
+func update_max_jumps(new_max: int) -> void:
+	max_jumps = new_max
+
+
+func reset_max_jumps() -> void:
+	max_jumps = DEFAULT_MAX_JUMPS
 
 func handle_variable_jump_height(jump_released: bool) -> void:
 	if jump_released and is_going_up:

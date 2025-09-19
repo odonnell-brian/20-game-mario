@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SizeIncreasePowerup" load_steps=2 format=3 uid="uid://ccy6h7guhikq6"]
+
+[ext_resource type="Script" uid="uid://dh23bm57ve0pr" path="res://components/mechanics/powerups/size_increase_powerup.gd" id="1_m0gy8"]
+
+[resource]
+script = ExtResource("1_m0gy8")
+end_scale = Vector2(1.25, 1.25)
+tween_time_seconds = 0.5
+metadata/_custom_type_script = "uid://dh23bm57ve0pr"

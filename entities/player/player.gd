@@ -1,7 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
-enum PlayerStates { IDLE, RUN, JUMP, FALL, DISABLED }
+enum PlayerStates { IDLE, RUN, JUMP, DOUBLE_JUMP, FALL, DISABLED }
 
 @export_category("Dependencies")
 @export var animated_sprite: AnimatedSprite2D
@@ -21,6 +21,7 @@ func _ready() -> void:
 	state_machine.add_state(PlayerStates.IDLE, idle_state, idle_state_enter)
 	state_machine.add_state(PlayerStates.RUN, run_state, run_state_enter)
 	state_machine.add_state(PlayerStates.JUMP, jump_state, jump_state_enter)
+	state_machine.add_state(PlayerStates.DOUBLE_JUMP, double_jump_state, double_jump_state_enter)
 	state_machine.add_state(PlayerStates.FALL, fall_state, fall_state_enter, fall_state_exit)
 	state_machine.add_state(PlayerStates.DISABLED, disabled_state, disabled_state_enter)
 
@@ -52,7 +53,7 @@ func idle_state(_delta: float) -> void:
 
 
 func disabled_state_enter() -> void:
-	animation_handler.play_animation("idle")
+	animation_handler.stop()
 	velocity_component.stop_velocity()
 	input_component.reset()
 
@@ -77,7 +78,10 @@ func run_state(_delta: float) -> void:
 
 
 func jump_state_enter() -> void:
-	animation_handler.play_animation("jump")
+	if jump_component.num_jumps == 0:
+		animation_handler.play_animation("jump")
+	else:
+		animation_handler.play_animation("double_jump")
 	jump_component.jump()
 
 
@@ -85,6 +89,24 @@ func jump_state(_delta: float) -> void:
 	jump_component.tick(input_component.jump, input_component.jump_just_released)
 	do_horizontal_movement()
 
+	if input_component.jump and jump_component.can_jump():
+		animation_handler.play_animation("double_jump")
+		jump_component.jump()
+	elif velocity_component.is_falling:
+		state_machine.change_state(PlayerStates.FALL)
+
+
+func double_jump_state_enter() -> void:
+	animation_handler.play_animation("double_jump")
+	jump_component.jump()
+
+
+func double_jump_state(_delta: float) -> void:
+	jump_component.tick(input_component.jump, input_component.jump_just_released)
+	do_horizontal_movement()
+
+	if input_component.jump and jump_component.can_jump():
+		state_machine.change_state(PlayerStates.DOUBLE_JUMP)
 	if velocity_component.is_falling:
 		state_machine.change_state(PlayerStates.FALL)
 
@@ -99,8 +121,9 @@ func fall_state(_delta: float) -> void:
 
 	var coyote_jump: bool = input_component.jump and jump_component.is_coyote_time()
 	var buffered_jump = velocity_component.is_on_floor() and jump_component.jump_buffered()
+	var second_jump = input_component.jump and jump_component.can_jump()
 
-	if coyote_jump or buffered_jump:
+	if coyote_jump or buffered_jump or second_jump:
 		state_machine.change_state(PlayerStates.JUMP)
 	elif velocity_component.is_on_floor():
 		state_machine.change_state(PlayerStates.IDLE)

@@ -10,3 +10,7 @@ func play_animation(anim_name: String) -> void:
 	if current_animation != anim_name:
 		current_animation = anim_name
 		animated_sprite.play(current_animation)
+
+func stop() -> void:
+	animated_sprite.stop()
+	current_animation = ""
